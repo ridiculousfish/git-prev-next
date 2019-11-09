@@ -1,0 +1,51 @@
+#!/bin/sh
+
+set -e
+
+source "$(git --exec-path)/git-sh-setup"
+
+# Generate a portable in-place sed "variable".
+case $(uname -s) in
+*Linux*)
+    IN_PLACE_SED="sed -i" ;;
+*)
+    IN_PLACE_SED="sed -i ''" ;;
+esac
+
+is_merge() {
+    test -n "$(git rev-list -1 --merges $1~1..$1)"
+}
+
+# Go to top level
+cd_to_toplevel
+
+# Only if we are clean
+require_clean_work_tree $cmd
+
+# Not if this is a merge commit.
+is_merge "HEAD" && die "HEAD is a merge commit, which is unsupported"
+
+# Not if we are in a non-interactive rebase
+test -d ".git/rebase-apply" && die "Non-interactive rebase is unsupported"
+
+# If we're not in an interactive rebase, start one on the current commit
+if ! test -d ".git/rebase-merge"; then
+    # Redirect to null to suppress the annoying "You can amend the commit now" message.
+    GIT_SEQUENCE_EDITOR="$IN_PLACE_SED 's/^pick/edit/'" git rebase --quiet -i HEAD^ 2>/dev/null
+    test -d ".git/rebase-merge" || die "Failed to start interactive rebase"
+fi
+
+for ((iter=0;iter<${1:-1};iter++)); do
+    # Not if parent is a merge commit.
+    is_merge "HEAD^" && die "HEAD^ is a merge commit, which is unsupported"
+
+    # Get the current commit and prepend it to the todo list
+    pickhead=$(git log --format='%h %s' -n 1 HEAD | sed -e "s/[\/&']/\\&/g")
+    if ! errtext=$(GIT_SEQUENCE_EDITOR="$IN_PLACE_SED \$'1 s/^/pick $pickhead\\
+/'" git rebase --edit-todo); then
+        echo "$errtext" 1>&2
+    fi
+
+    # Go to parent commit
+    git reset --hard HEAD^
+done
