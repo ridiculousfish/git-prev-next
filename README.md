@@ -26,7 +26,7 @@ You can pass a number like `git prev 3` to go up 3 commits.
 
 ## `git next`
 
-This takes the next entry in the todo list, switches it to an `edit`, and then invokes `git rebase --continue`. Note this terminates the interactive rebase if it reaches the top.
+This takes the next entry in the todo list, switches it to 'edit', and then invokes `git rebase --continue`. Note this terminates the interactive rebase if it reaches the top.
 
 You can also pass a number to `git next`.
 
