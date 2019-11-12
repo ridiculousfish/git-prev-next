@@ -2,7 +2,21 @@ Have you ever begun an interactive rebase to edit a commit, and then find that y
 
 git-prev-next is a pair of custom git commands to make it easier to navigate and rebase in a git commit history. It is built on top of interactive rebase.
 
-# `git prev`
+## Example
+
+    > # Oops, the change I want is three commits up
+    > git prev 3
+    ...hack hack hack...
+    > git commit --amend
+    > # oh I need to fix the next commit too
+    > git next
+    ...hack hack hack...
+    > git commit --amend
+    > # all done
+    > git rebase --continue
+    
+
+## `git prev`
 
 This takes the current HEAD commit and prepends it to the rebase todo list (as 'pick'). It then resets to the parent commit.
 
@@ -10,13 +24,13 @@ This takes the current HEAD commit and prepends it to the rebase todo list (as '
 
 You can pass a number like `git prev 3` to go up 3 commits.
 
-# `git next`
+## `git next`
 
 This takes the next entry in the todo list, switches it to an `edit`, and then invokes `git rebase --continue`. Note this terminates the interactive rebase if it reaches the top.
 
 You can also pass a number to `git next`.
 
-# Installation
+## Installation
 
 Install through copying or symlinking into your `$PATH`. For example:
 
