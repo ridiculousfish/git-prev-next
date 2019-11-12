@@ -4,7 +4,7 @@ git-prev-next is a pair of custom git commands to make it easier to navigate and
 
 ## Example
 
-    > # Oops, the change I want is three commits up
+    > # Oops, I need to make a change three commits up
     > git prev 3
     ...hack hack hack...
     > git commit --amend
