@@ -20,7 +20,7 @@ git-prev-next is a pair of custom git commands to make it easier to navigate and
 
 This takes the current HEAD commit and prepends it to the rebase todo list (as 'pick'). It then resets to the parent commit.
 
-`git prev` will begin an interactive rebase if necesssary. It also refuse merge commits.
+If there is not a current interactive rebase, `git prev` will begin one.
 
 You can pass a number like `git prev 3` to go up 3 commits.
 
