@@ -39,4 +39,4 @@ Install through copying or symlinking into your `$PATH`. For example:
 
 ## Safety
 
-`git prev` and `git next` will refuse to enter or exit merge commits, or if your worktree is not clean.
+`git prev` and `git next` will refuse to enter or exit merge commits. They also will error if your worktree is not clean.
