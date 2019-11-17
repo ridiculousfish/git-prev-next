@@ -41,7 +41,7 @@ for ((iter=0;iter<${1:-1};iter++)); do
 
     # Get the current commit and prepend it to the todo list
     pickhead=$(git log --format='%h %s' -n 1 HEAD | sed -e "s/[\/&']/\\&/g")
-    if ! errtext=$(GIT_SEQUENCE_EDITOR="$IN_PLACE_SED \$'1 s/^/pick $pickhead\\
+    if ! errtext=$(GIT_SEQUENCE_EDITOR="$IN_PLACE_SED '1 s/^/pick $pickhead\\
 /'" git rebase --edit-todo); then
         echo "$errtext" 1>&2
     fi
