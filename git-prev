@@ -2,6 +2,7 @@
 
 set -e
 
+SUBDIRECTORY_OK=1
 source "$(git --exec-path)/git-sh-setup"
 
 # Generate a portable in-place sed "variable".
