@@ -13,8 +13,12 @@ case $(uname -s) in
     IN_PLACE_SED="sed -i ''" ;;
 esac
 
+has_parent() {
+    git rev-parse --quiet "$1~1^{commit}" &> /dev/null
+}
+
 is_merge() {
-    test -n "$(git rev-list -1 --merges $1~1..$1)"
+    has_parent "$1" && test -n "$(git rev-list -1 --merges $1~1..$1)"
 }
 
 # Go to top level
