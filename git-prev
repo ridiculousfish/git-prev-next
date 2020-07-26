@@ -27,6 +27,11 @@ cd_to_toplevel
 # Only if we are clean
 require_clean_work_tree $cmd
 
+if ! has_parent "HEAD"; then
+    echo "At bottom"
+    exit
+fi
+
 # Not if this is a merge commit.
 is_merge "HEAD" && die "HEAD is a merge commit, which is unsupported"
 
@@ -41,6 +46,11 @@ if ! test -d ".git/rebase-merge"; then
 fi
 
 for ((iter=0;iter<${1:-1};iter++)); do
+    if ! has_parent "HEAD"; then
+        echo "At bottom"
+        exit
+    fi
+
     # Not if parent is a merge commit.
     is_merge "HEAD^" && die "HEAD^ is a merge commit, which is unsupported"
 
