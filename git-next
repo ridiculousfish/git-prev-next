@@ -40,12 +40,8 @@ for ((iter=0;iter<${1:-1};iter++)); do
         exit
     fi
 
-    # Ensure the next commit is an edit.
-    # If this fails, print the result.
-    if ! errtext=$(GIT_SEQUENCE_EDITOR="$IN_PLACE_SED '1 s/^[a-z]\{1,\}/edit/'" git rebase --edit-todo 2>&1); then
-        echo "$errtext" 1>&2
-        die
-    fi
+    # Make the next 'pick' an 'edit'.
+    GIT_SEQUENCE_EDITOR="$IN_PLACE_SED -e '/^pick/{s//edit/;:a' -e '$!N;$!ba' -e '}'" git rebase --edit-todo
 
     # Go to next commit.
     if ! errtext=$(git rebase --continue 2>&1); then
