@@ -41,7 +41,8 @@ for ((iter=0;iter<${1:-1};iter++)); do
     fi
 
     # Make the next 'pick' an 'edit'.
-    GIT_SEQUENCE_EDITOR="$IN_PLACE_SED -e '/^pick/{s//edit/;:a' -e '$!N;$!ba' -e '}'" git rebase --edit-todo
+    # See https://www.linuxtopia.org/online_books/linux_tool_guides/the_sed_faq/sedfaq4_004.html
+    GIT_SEQUENCE_EDITOR="$IN_PLACE_SED -e '1{x;s/^/first/;x;}' -e '1,/^pick/{x;/first/s///;x;s/^pick/edit/;}'" git rebase --edit-todo
 
     # Go to next commit.
     if ! errtext=$(git rebase --continue 2>&1); then
