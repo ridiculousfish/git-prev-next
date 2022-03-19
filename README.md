@@ -1,6 +1,6 @@
-Have you ever begun an interactive rebase to edit a commit, and then find that you also want to edit the parent commit? Or just wanted to edit a few commits back without going through the interactive rebase rigamarole?
+git-prev-next allows you to easily navigate your commits, and amend them. It is built on top of interactive rebase.
 
-git-prev-next is a pair of custom git commands to make it easier to navigate and rebase in a git commit history. It is built on top of interactive rebase.
+Have you ever begun an interactive rebase to edit a commit, and then find that you also want to edit the parent commit? Or just wanted to edit a few commits back without going through the interactive rebase rigamarole?
 
 ## Example
 
